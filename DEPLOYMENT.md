@@ -198,11 +198,23 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 ### 6. 运行数据库迁移
 
+**重要：必须先运行迁移，然后再创建超级用户！**
+
 ```bash
+# 首先运行数据库迁移，创建所有表
 python manage.py migrate
+
+# 迁移完成后，创建超级用户
 python manage.py createsuperuser
+
+# 收集静态文件
 python manage.py collectstatic --noinput
 ```
+
+**注意**：
+- 如果看到 "You have X unapplied migration(s)" 的提示，必须先运行 `python manage.py migrate`
+- 迁移会创建所有必需的数据库表，包括 auth_user 表
+- 只有迁移完成后才能创建超级用户
 
 ### 7. 配置Gunicorn
 
