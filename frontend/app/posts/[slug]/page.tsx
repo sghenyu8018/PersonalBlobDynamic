@@ -15,7 +15,7 @@ export default async function PostPage({
     return (
       <div className="max-w-4xl mx-auto px-4 py-8">
         <PostContent post={post} />
-        <CommentSection postSlug={params.slug} initialComments={comments} />
+        <CommentSection postId={post.id} postSlug={params.slug} initialComments={comments} />
       </div>
     );
   } catch (error) {

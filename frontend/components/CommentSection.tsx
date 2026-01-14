@@ -7,11 +7,12 @@ import CommentList from './CommentList';
 import CommentForm from './CommentForm';
 
 interface CommentSectionProps {
+  postId: number;
   postSlug: string;
   initialComments: Comment[];
 }
 
-export default function CommentSection({ postSlug, initialComments }: CommentSectionProps) {
+export default function CommentSection({ postId, postSlug, initialComments }: CommentSectionProps) {
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [loading, setLoading] = useState(false);
 
@@ -23,11 +24,9 @@ export default function CommentSection({ postSlug, initialComments }: CommentSec
   }) => {
     setLoading(true);
     try {
-      // 这里需要先获取post id，暂时使用postSlug
-      // 实际应该从post数据中获取
-      const response = await blogApi.createComment({
+      await blogApi.createComment({
         ...data,
-        post: 0, // 需要修复：应该使用post id
+        post: postId,
       });
       // 刷新评论列表
       const newComments = await blogApi.getComments(postSlug);
