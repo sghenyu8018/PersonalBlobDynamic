@@ -1,0 +1,70 @@
+﻿python : Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+所在位置 C:\Users\12978\AppData\Local\Temp\ps-script-f19725e5-0a76-43a6-bd88-0c14ac1c61fa.ps1:108 字符: 1
++ python test_local.py 2>&1 | Out-File -Encoding utf8 test_results.txt
++ ~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Invalid HTTP_HO... ALLOWED_HOSTS.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Traceback (most recent call last):
+  File "E:\Python311\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Python311\Lib\site-packages\django\utils\deprecation.py", line 119, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Python311\Lib\site-packages\django\middleware\common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "E:\Python311\Lib\site-packages\django\http\request.py", line 202, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLO
+WED_HOSTS.
+
+
+==================================================
+开始本地测试
+==================================================
+
+==================================================
+测试1: 导入模块
+==================================================
+错误: 导入失败: 'gbk' codec can't encode character '\u2705' in position 0: illegal multibyte sequence
+
+==================================================
+测试2: 数据库模型
+==================================================
+错误: 模型测试失败: 'gbk' codec can't encode character '\u2705' in position 0: illegal multibyte sequence
+
+==================================================
+测试3: Django Admin配置
+==================================================
+错误: Admin测试失败: 'gbk' codec can't encode character '\u2705' in position 0: illegal multibyte sequence
+
+==================================================
+测试4: URL配置
+==================================================
+错误: URL测试失败: 'gbk' codec can't encode character '\u26a0' in position 0: illegal multibyte sequence
+
+==================================================
+测试5: 序列化器
+==================================================
+错误: 序列化器测试失败: 'gbk' codec can't encode character '\u2705' in position 0: illegal multibyte sequence
+Traceback (most recent call last):
+
+
+==================================================
+测试总结
+==================================================
+通过: 0/5
+  File "D:\python\PersonalBlobDynamic\test_local.py", line 157, in <module>
+
+    sys.exit(main())
+
+             ^^^^^^
+
+  File "D:\python\PersonalBlobDynamic\test_local.py", line 153, in main
+
+    print("\u274c 部分测试失败")
+
+UnicodeEncodeError: 'gbk' codec can't encode character '\u274c' in position 0: illegal multibyte sequence
+

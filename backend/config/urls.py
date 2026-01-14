@@ -26,6 +26,10 @@ urlpatterns = [
     path('api/', include('api.urls')),
 ]
 
+# 添加API根路径
+from api.views import api_root
+urlpatterns.insert(3, path('api/', api_root, name='api-root'))
+
 # 开发环境下的媒体文件服务
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
