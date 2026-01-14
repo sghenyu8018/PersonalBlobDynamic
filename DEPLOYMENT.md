@@ -124,6 +124,10 @@ pip install -r requirements.txt
 
 # 生产环境额外安装gunicorn
 pip install gunicorn
+
+# 如果遇到psycopg2编译问题，可以安装系统依赖
+sudo apt install -y libpq-dev python3-dev
+pip install psycopg2-binary
 ```
 
 ### 4. 配置环境变量
@@ -149,20 +153,24 @@ DATABASE_URL=postgresql://bloguser:your_secure_password@localhost:5432/blogdb
 python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
 ```
 
-### 5. 更新Django设置
+### 5. 配置Django环境变量
 
-编辑 `config/settings.py`：
+你需要把 `.env` 文件中的内容接入到 Django 配置里，方法如下：
+
+1. 打开/编辑 `config/settings.py` 文件。
+
+2. 找到原本写死 SECRET_KEY、DEBUG、ALLOWED_HOSTS 和数据库信息的地方，把它们用下面的方式替换：
 
 ```python
-# 使用环境变量
+# 引入 decouple 库以读取 .env
 from decouple import config
 import os
 
-SECRET_KEY = config('SECRET_KEY')
-DEBUG = config('DEBUG', default=False, cast=bool)
+SECRET_KEY = config('SECRET_KEY')  # 从.env获取
+DEBUG = config('DEBUG', default=False, cast=bool)  # True/False
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
-# 数据库配置（PostgreSQL）
+# 数据库配置（.env中写明数据库参数，settings里这样读取）
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -174,7 +182,7 @@ DATABASES = {
     }
 }
 
-# 静态文件
+# 静态文件（确保有 BASE_DIR 变量定义，一般Django默认有几行）
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -182,6 +190,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 ```
+
+- `.env` 文件的内容格式可以参考上文部署说明。
+- 修改后，Django 会自动用你 `.env` 文件里的设置。
+
+如果你不会新增字段，直接复制上述代码覆盖你原有的设置部分即可。
 
 ### 6. 运行数据库迁移
 
