@@ -19,6 +19,11 @@ export default async function PostPage({
       </div>
     );
   } catch (error) {
+    // 构建时如果API不可用，返回404
+    // 这在生产构建时是正常的，因为API可能还未启动
+    if (process.env.NODE_ENV === 'production') {
+      console.warn(`Failed to load post ${params.slug} during build, will fetch at runtime`);
+    }
     notFound();
   }
 }

@@ -288,8 +288,13 @@ npm install
 创建 `.env.production` 文件：
 
 ```env
-NEXT_PUBLIC_API_URL=https://your-domain.com/api
+NEXT_PUBLIC_API_URL=http://localhost:8000/api
 ```
+
+**注意**：
+- 在生产环境中，应该设置为实际的API地址，如：`https://your-domain.com/api`
+- 在构建时，如果API服务未运行，构建仍会成功，但静态页面生成可能会失败（这是正常的）
+- 页面会在运行时动态获取数据
 
 ### 4. 构建生产版本
 

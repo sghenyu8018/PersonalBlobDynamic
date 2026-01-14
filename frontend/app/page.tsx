@@ -7,7 +7,13 @@ export default async function Home() {
     const data = await blogApi.getPosts();
     posts = data.results || data;
   } catch (error) {
-    console.error('Failed to load posts:', error);
+    // 构建时如果API不可用，静默失败（使用空数组）
+    // 这在生产构建时是正常的，因为API可能还未启动
+    if (process.env.NODE_ENV === 'production') {
+      console.warn('Failed to load posts during build, will fetch at runtime');
+    } else {
+      console.error('Failed to load posts:', error);
+    }
   }
 
   return (
